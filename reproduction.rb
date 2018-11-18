@@ -1,23 +1,35 @@
-# frozen_string_literal: true
+class Parent
+  attr_reader :foo
 
-require 'time'
-
-class Foo
-  EPOCH_TIME = 1_000
-
-  def to_i
-    1_528_771_800
+  def initialize(foo)
+    @foo = foo
   end
 
-  def to_time
-    Time.at(to_i + EPOCH_TIME)
+  def one
+    two
+  end
+
+  def two
+    false
   end
 end
 
-RSpec.describe Foo do
-  it 'works' do
-    foo = Foo.new
+class Child < Parent
+  def one
+    foo.eql?('foo')
+  end
 
-    expect(foo.to_time).to eq(Time.parse('2018-06-11 22:06:40 -0500'))
+  alias_method :two, :one
+end
+
+RSpec.describe Child do
+  it 'works for foo' do
+    foo = Child.new('foo')
+    expect(foo.one).to eq(true)
+  end
+
+  it 'works for bar' do
+    foo = Child.new('bar')
+    expect(foo.one).to eq(false)
   end
 end

@@ -2,13 +2,5 @@
 
 bundle install >/dev/null
 
-# This one will crash
-printf 'Running the version that will crash ...\n\n'
-bundle exec mutant --include . --require reproduction --use rspec Foo
+bundle exec mutant --include . --require reproduction --use rspec Child
 
-printf '\nPress enter to start the next test\n\n'
-read -r
-
-# This one will not crash
-printf 'Running the version that will not crash ...\n\n'
-bundle exec mutant --include . --require no_crash --use rspec Foo
